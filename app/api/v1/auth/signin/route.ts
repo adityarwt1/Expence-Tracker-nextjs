@@ -25,7 +25,7 @@ export async function POST(req:NextRequest): Promise<NextResponse<SignInInterfac
 
         const user = await User.findOne({
             email:body.email
-        }).select("_id email password")
+        }).select("_id email password").lean()
 
         if(!user){
             return notFound()
