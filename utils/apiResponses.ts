@@ -44,3 +44,13 @@ export const conflictError = async (message?:string)=> NextResponse.json<Standar
     status:HttpStatusCode.CONFLICT
 }
 )
+
+export const notFound = async (message?:string)=> NextResponse.json<StandardApiResponse>({
+    status:HttpStatusCode.NOT_FOUND,
+    success:false,
+    error:HttpStatusText.NOT_FOUND,
+    message:message || "Not found!"
+},
+{
+    status:HttpStatusCode.NOT_FOUND
+})
