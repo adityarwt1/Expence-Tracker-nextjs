@@ -2,12 +2,17 @@ import { HttpStatusCode } from "@/enums/HttpStatusCodeAndStatus";
 import { ExpenceAddInterface, ExpenceResponseInterface } from "@/interfaces/ApiReponses/v1/expence/expencesInterfaces";
 import { mongoconnect } from "@/lib/mongodb";
 import Expence from "@/models/Expence";
-import { badRequest, internalServerIssue } from "@/utils/apiResponses";
+import { verifyToken } from "@/services/token/tokenSevices";
+import { badRequest, internalServerIssue, unAuthorized } from "@/utils/apiResponses";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req:NextRequest):Promise<NextResponse<ExpenceResponseInterface>> {
     try {
-        
+        const authencticationInfo = await verifyToken(req)
+
+        if(!authencticationInfo || !authencticationInfo.isVerified || !authencticationInfo.user?._id){
+            return unAuthorized()
+        }
         const body :ExpenceAddInterface  = await req.json()
 
         if(!body || !body.title){
@@ -20,7 +25,10 @@ export async function POST(req:NextRequest):Promise<NextResponse<ExpenceResponse
             return internalServerIssue(new Error("Failed to connect Database!"))
         }
 
-        const expence = await Expence.create(body)
+        const expence = await Expence.create({
+            title:body.title,
+            userId:authencticationInfo.user._id
+        })
 
         if(!expence){
             return internalServerIssue(new Error("Failed to create expence!"))
@@ -38,3 +46,4 @@ export async function POST(req:NextRequest):Promise<NextResponse<ExpenceResponse
         return internalServerIssue(error as Error)
     }
 }
+

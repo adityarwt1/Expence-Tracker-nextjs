@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { StandardApiResponse } from "../../StandardResponse";
 
 export interface ExpenceAddInterface {
@@ -5,3 +6,8 @@ export interface ExpenceAddInterface {
 }
 
 export interface ExpenceResponseInterface  extends StandardApiResponse {}
+
+export interface ExpenceInterFaceGetResponse {
+    title:string,
+    _id:mongoose.Types.ObjectId
+}

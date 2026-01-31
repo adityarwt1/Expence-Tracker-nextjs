@@ -1,5 +1,5 @@
 import { SignInBody } from "@/interfaces/ApiReponses/v1/auth/signin/signinInterface";
-import { SignUpResponseInterfaces } from "@/interfaces/ApiReponses/v1/auth/signup/signupinterfaces";
+import { SignupInterfacesBody, SignUpResponseInterfaces } from "@/interfaces/ApiReponses/v1/auth/signup/signupinterfaces";
 import { mongoconnect } from "@/lib/mongodb";
 import User from "@/models/User";
 import { badRequest, conflictError, internalServerIssue } from "@/utils/apiResponses";
@@ -9,7 +9,7 @@ import { createAndSaveToken } from "@/utils/token";
 import { HttpStatusCode } from "@/enums/HttpStatusCodeAndStatus";
 export async function POST(req:NextRequest) :Promise<NextResponse<SignUpResponseInterfaces>> {
     try {
-        const body:SignInBody = await req.json()
+        const body:SignupInterfacesBody = await req.json()
 
         if(!body || !body.email || !body.password){
             return badRequest("field not provide properly!")
@@ -37,7 +37,12 @@ export async function POST(req:NextRequest) :Promise<NextResponse<SignUpResponse
             return internalServerIssue(new Error("Failed to create user!"))
         }
 
-        const createdUser = await User.create(body)
+        const createdUser = await User.create({
+            email:body.email,
+            password:hashedPassword,
+            fullName:body.fullName,
+            dp:body.dp
+        })
 
         if(!createdUser){
             return internalServerIssue(new Error("Failed to create user!"))

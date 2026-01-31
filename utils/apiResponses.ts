@@ -54,3 +54,12 @@ export const notFound = async (message?:string)=> NextResponse.json<StandardApiR
 {
     status:HttpStatusCode.NOT_FOUND
 })
+
+export const unAuthorized = async()=> NextResponse.json<StandardApiResponse>({
+    status:HttpStatusCode.UNAUTHORIZED,
+    success:false,
+    error:HttpStatusText.UNAUTHORIZED,
+},
+{
+    status:HttpStatusCode.UNAUTHORIZED
+})
