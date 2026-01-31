@@ -10,7 +10,6 @@ interface VerifyTokenInfo {
 export const verifyToken = async (req:NextRequest):Promise<VerifyTokenInfo>=>{
     try {
         const token = req.headers.get("Authorization")?.split(" ")[1]
-        console.log('token in verify token' , token)
         if(!token){
             return {
                 isVerified:false,

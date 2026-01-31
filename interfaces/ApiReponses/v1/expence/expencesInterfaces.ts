@@ -11,3 +11,12 @@ export interface ExpenceInterFaceGetResponse {
     title:string,
     _id:mongoose.Types.ObjectId
 }
+
+export interface ExpenceGetInterfaces extends StandardApiResponse {
+    data?:ExpenceInterFaceGetResponse[]
+    pagination?:{
+        limit:number,
+        page:number,
+        totalDocumentCount:number
+    }
+}

@@ -2,7 +2,7 @@
 
 import { HttpStatusCode, HttpStatusText } from "@/enums/HttpStatusCodeAndStatus"
 import { StandardApiResponse } from "@/interfaces/ApiReponses/StandardResponse"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
 export const badRequest = async (message:string)=> NextResponse.json<StandardApiResponse>({
     status:HttpStatusCode.BAD_REQUEST,
@@ -63,3 +63,6 @@ export const unAuthorized = async()=> NextResponse.json<StandardApiResponse>({
 {
     status:HttpStatusCode.UNAUTHORIZED
 })
+
+export const searchParams = async (req:NextRequest) => req.nextUrl.searchParams
+export const headers = async (req:NextRequest) => req.headers
