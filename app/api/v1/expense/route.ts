@@ -1,5 +1,5 @@
 import { HttpStatusCode } from "@/enums/HttpStatusCodeAndStatus";
-import { expenseAddInterface, expenseResponseInterface, expenseGetInterfaces, expensePatchBodyInterface, expensePatchResonceBody, expenseDeleteResponse, expenseDeleteRequestBody } from "@/interfaces/ApiResponses/v1/expense/expenseInterfaces";
+import { expenseAddInterface, expenseResponseInterface, expenseGetInterfaces, expensePatchBodyInterface, expensePatchResonceBody, expenseDeleteResponse, expenseDeleteRequestBody } from "@/interfaces/ApiReponses/v1/expense/expenseInterfaces";
 import { mongoconnect } from "@/lib/mongodb";
 import Expense from "@/models/Expense";
 import { verifyToken } from "@/services/token/tokenSevices";
