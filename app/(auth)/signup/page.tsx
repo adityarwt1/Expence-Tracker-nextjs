@@ -4,6 +4,7 @@ import { SignupInterfacesBody } from "@/interfaces/ApiReponses/v1/auth/signup/si
 import { signupService } from "@/services/auth/signup/signupServices";
 import { convertToBase64URL } from "@/services/images/convertobase64";
 import { saveToken } from "@/services/localstorageServices/getAndSave";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 
@@ -111,6 +112,9 @@ const SignUpPage = ()=>{
 
     <button type="submit" disabled={isLoading}>{isLoading? "SignUp...":"SignUp"}</button>
   </form>
+  <div> already have account
+  <Link href='/signin'>Signin</Link>
+  </div>
   {error && (
     <div>{error}</div>
   )}

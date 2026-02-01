@@ -3,6 +3,7 @@ import { HttpStatusText } from "@/enums/HttpStatusCodeAndStatus";
 import { SignInBody } from "@/interfaces/ApiReponses/v1/auth/signin/signinInterface";
 import { signInServices } from "@/services/auth/signinservices/signin";
 import { saveToken } from "@/services/localstorageServices/getAndSave";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 const SingInPage  = ()=>{
@@ -63,6 +64,9 @@ const SingInPage  = ()=>{
             {error && (
                 <div>{error}</div>
             )}
+            <div> Don't have account
+  <Link href='/signup'>Signin</Link>
+  </div>
         </div>
     )
 }
