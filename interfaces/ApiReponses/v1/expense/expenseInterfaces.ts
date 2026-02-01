@@ -11,7 +11,11 @@ export interface expenseInterFaceGetResponse {
     title:string,
     _id:mongoose.Types.ObjectId
 }
-
+export interface Pagination {
+        limit:number,
+        page:number,
+        totalDocumentCount:number
+}
 export interface expenseGetInterfaces extends StandardApiResponse {
     data?:expenseInterFaceGetResponse[]
     pagination?:{
