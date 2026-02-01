@@ -16,3 +16,9 @@ export interface ItemAddResponse extends StandardApiResponse {
         amount:number
     }
 }
+
+
+export interface ItemsGetResponseInterface extends StandardApiResponse{
+    data?:ItemsInterfaces[]
+}
+
