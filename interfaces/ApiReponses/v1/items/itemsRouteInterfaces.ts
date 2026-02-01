@@ -22,3 +22,19 @@ export interface ItemsGetResponseInterface extends StandardApiResponse{
     data?:ItemsInterfaces[]
 }
 
+export interface ItemsPatchBodyInterface {
+    id:string | mongoose.Types.ObjectId 
+    name:string,
+    amount:number
+}
+
+export interface ItemsPatchBodyResponse  extends StandardApiResponse{
+    data?:{
+        _id:mongoose.Types.ObjectId | string,
+        item:{
+            name:string,
+            amount:number,
+            _id:mongoose.Types.ObjectId | string
+        }
+    }
+}
