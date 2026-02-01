@@ -26,7 +26,7 @@ export async function POST(req:NextRequest) :Promise<NextResponse<ExpenseAddCate
             return internalServerIssue(new Error("Failed to connect databse!"))
         }
         
-        const data = await Category.insertOne(body)
+        const data = await Category.create(body)
         
         if(!data){
             return internalServerIssue(new Error("Failed to create category!"))
@@ -132,7 +132,7 @@ export async function PATCH(req:NextRequest) : Promise<NextResponse<ExpenseEditC
         
         const body: ExpenseEditCategoryBodyInterface = await req.json()
         
-        if(!body || Object.values(body).length == 0){
+        if(!body || Object.values(body).length == 0 || !body._id || !body.title){
             return badRequest("filelds not provided proporly!")
         }
         

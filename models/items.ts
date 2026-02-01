@@ -6,7 +6,7 @@ interface ItemInterface {
 }
 interface ItemsDocumentInterface extends Document {
     categoryId:mongoose.Types.ObjectId | string,
-    items:ItemInterface[]
+    item:ItemInterface
 }
 
 const ItemSchema:Schema<ItemInterface> = new Schema({
@@ -27,7 +27,10 @@ const ItemsSchema:Schema<ItemsDocumentInterface> = new Schema({
         ref:"Category",
         index:true
     },
-    items:[ItemSchema]
+     item: {
+      type: ItemSchema,
+      required: true
+    }
 },{timestamps:true})
 
 const Items = mongoose.models.Items || mongoose.model<ItemsDocumentInterface>("Items", ItemsSchema)
