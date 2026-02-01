@@ -60,7 +60,7 @@ const SignUpPage = ()=>{
                setError(response.error == HttpStatusText.CONFLICT && "User already exist!" || "Failed to signup!") 
             }
         } catch (error) {
-            
+            setError("Failed to signup!")
         } finally {
             setIsloading(false)
         }
