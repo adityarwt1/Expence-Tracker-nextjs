@@ -11,7 +11,7 @@ export async function POST(req:NextRequest) :Promise<NextResponse<SignUpResponse
     try {
         const body:SignupInterfacesBody = await req.json()
 
-        if(!body || !body.email || !body.password){
+        if(!body || !body.email || !body.password || !body.fullName){
             return badRequest("field not provide properly!")
         }
 
