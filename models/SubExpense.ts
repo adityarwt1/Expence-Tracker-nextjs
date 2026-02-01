@@ -4,6 +4,7 @@ interface SubexpenseInterface extends Document{
     expenseId:mongoose.Types.ObjectId | string
     date: Date,
     isActive:boolean,
+    totalAmount:number
 }
 
 const SubexpenseSchema: Schema<SubexpenseInterface> = new Schema({
@@ -20,6 +21,10 @@ const SubexpenseSchema: Schema<SubexpenseInterface> = new Schema({
         required:true,
         ref:"Expense",
         index:true
+    },
+    totalAmount:{
+        type:Number,
+        default:0
     }
 },
 {
