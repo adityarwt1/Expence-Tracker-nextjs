@@ -2,7 +2,7 @@ import mongoose , {Schema, Document} from "mongoose";
 
 interface ExpenceDocumentInterface  extends Document{
     title:string,
-    userId:mongoose.Schema.Types.ObjectId
+    authorId:mongoose.Schema.Types.ObjectId
 }
 
 const ExpenceSchema:Schema<ExpenceDocumentInterface> = new Schema({
@@ -10,7 +10,7 @@ const ExpenceSchema:Schema<ExpenceDocumentInterface> = new Schema({
         type:String,
         required:true,
     },
-    userId:{
+    authorId:{
         type:Schema.Types.ObjectId,
         required:true,
     }

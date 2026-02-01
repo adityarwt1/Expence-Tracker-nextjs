@@ -28,7 +28,7 @@ export async function POST(req:NextRequest):Promise<NextResponse<ExpenceResponse
 
         const expence = await Expence.create({
             title:body.title,
-            userId:authencticationInfo.user._id
+            authorId:authencticationInfo.user._id
         })
 
         if(!expence){
@@ -69,7 +69,7 @@ export async function GET(req:NextRequest) : Promise<NextResponse<ExpenceGetInte
 
         const totalDocumentCount = await Expence.countDocuments({ userId: authencticationInfo.user._id })
 
-        const expences = await Expence.find({ userId: authencticationInfo.user._id })
+        const expences = await Expence.find({ authorId: authencticationInfo.user._id })
             .select("title _id")
             .skip(skip)
             .limit(limit)
