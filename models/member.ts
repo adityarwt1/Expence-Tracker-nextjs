@@ -8,11 +8,15 @@ interface MemberInterface {
 const MemberSchema:Schema<MemberInterface> = new Schema({
     expenseId:{
         type:Schema.Types.ObjectId,
-        required:true
+        required:true,
+        ref:"Expense",
+        index:true
     },
     userId:{
         type:Schema.Types.ObjectId, 
-        required:true
+        required:true,
+        ref:"User",
+        index:true
     }
 },{timestamps:true})
 

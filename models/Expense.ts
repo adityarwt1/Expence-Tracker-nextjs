@@ -13,6 +13,8 @@ const expenseSchema:Schema<expenseDocumentInterface> = new Schema({
     authorId:{
         type:Schema.Types.ObjectId,
         required:true,
+        ref:"User",
+        index:true
     }
 },{
 timestamps:true
