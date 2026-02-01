@@ -3,6 +3,7 @@ import React, { useEffect, useState, useOptimistic , useTransition} from "react"
 import { useParams, useRouter } from "next/navigation";
 import { getToken } from "@/services/localstorageServices/getAndSave";
 import { HttpStatusText } from "@/enums/HttpStatusCodeAndStatus";
+import ExpenseReport from "@/components/ExpenseReport";
 
 interface SubExpense {
   _id: string;
@@ -896,6 +897,7 @@ const [isPending, startTransition] = useTransition()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+      <ExpenseReport/>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
