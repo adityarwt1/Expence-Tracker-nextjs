@@ -9,7 +9,7 @@ export interface expenseResponseInterface  extends StandardApiResponse {}
 
 export interface expenseInterFaceGetResponse {
     title:string,
-    _id:mongoose.Types.ObjectId
+    _id:mongoose.Types.ObjectId | string
 }
 export interface Pagination {
         limit:number,

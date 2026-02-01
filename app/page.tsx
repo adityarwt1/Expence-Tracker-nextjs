@@ -2,6 +2,7 @@
 import { HttpStatusText } from "@/enums/HttpStatusCodeAndStatus";
 import { expenseGetInterfaces, expenseInterFaceGetResponse, Pagination } from "@/interfaces/ApiReponses/v1/expense/expenseInterfaces";
 import { getToken } from "@/services/localstorageServices/getAndSave";
+import mongoose from "mongoose";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState }  from "react";
 
@@ -18,7 +19,7 @@ const HomePage = ()=>{
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const [newExpenseTitle, setNewExpenseTitle] = useState<string>("")
-  const [editExpense, setEditExpense] = useState<{_id: string, title: string} | null>(null)
+  const [editExpense, setEditExpense] = useState<{_id: string | mongoose.Types.ObjectId, title: string} | null>(null)
   const [deleteExpenseId, setDeleteExpenseId] = useState<string>("")
   const [actionLoading, setActionLoading] = useState<boolean>(false)
   
@@ -42,8 +43,8 @@ const HomePage = ()=>{
         }
       })
       const data:expenseGetInterfaces = await response.json()
-      if(data.success && data.pagination){
-        setExpenses(data.data)
+      if(data.success && data.pagination && data.data){
+        setExpenses(data?.data)
         setPagination(data.pagination)
       }else if(data.error == HttpStatusText.UNAUTHORIZED ){
         router.replace('/signin')
@@ -285,7 +286,7 @@ const HomePage = ()=>{
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {expenses.map((expense, index) => (
               <div 
-                key={expense._id} 
+                key={expense._id as string} 
                 className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border-t-4 border-blue-600"
               >
                 <div className="p-6">
@@ -295,7 +296,7 @@ const HomePage = ()=>{
                       <h3 className="text-xl font-bold text-blue-900 mb-1">
                         {expense.title}
                       </h3>
-                      <p className="text-xs text-gray-500">ID: {expense._id}</p>
+                      <p className="text-xs text-gray-500">ID: {expense._id as string}</p>
                     </div>
                     <div className="bg-blue-100 p-2 rounded-lg">
                       <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -316,7 +317,7 @@ const HomePage = ()=>{
                       Edit
                     </button>
                     <button
-                      onClick={() => openDeleteModal(expense._id)}
+                      onClick={() => openDeleteModal(expense._id as string)}
                       className="flex-1 px-3 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors duration-200 flex items-center justify-center gap-2 text-sm font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -332,7 +333,7 @@ const HomePage = ()=>{
                       Record #{index + 1}
                     </span>
                     <button
-                      onClick={() => handleViewDetails(expense._id)}
+                      onClick={() => handleViewDetails(expense._id as string)}
                       className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors duration-200 flex items-center gap-2 font-medium text-sm"
                     >
                       <span>Details</span>
