@@ -1,0 +1,15 @@
+import mongoose from "mongoose";
+import { StandardApiResponse } from "../../StandardResponse";
+
+// get search params 
+// userId and expenceId
+// get response
+// userInterface 
+export interface MemberObjectInterface {
+    _id:string | mongoose.Types.ObjectId,
+    fullName:string,
+    email:string
+}
+export interface MemberGetInterfaces extends StandardApiResponse {
+    data?: MemberObjectInterface[]
+}
