@@ -36,7 +36,7 @@ export async function GET(req:NextRequest) : Promise<NextResponse<SubExpenceGetR
         .limit(limit)
         .skip(skip)
         .lean()
-        .select("_id date isActive expenseId totalAmount")
+        .select("_id date isActive totalAmount")
 
         const total = await Subexpense.countDocuments({
             expenseId:new mongoose.Types.ObjectId(expenseId)
