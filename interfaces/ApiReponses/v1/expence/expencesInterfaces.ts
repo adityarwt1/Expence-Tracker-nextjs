@@ -20,3 +20,24 @@ export interface ExpenceGetInterfaces extends StandardApiResponse {
         totalDocumentCount:number
     }
 }
+
+// update
+export interface ExpencePatchBodyInterface {
+    _id:mongoose.Types.ObjectId | string,
+    title:string
+}
+
+
+export interface ExpencePatchResonceBody extends StandardApiResponse   {
+    data?:{
+        _id:mongoose.Types.ObjectId | string,
+        title:string
+    }
+}
+
+// delete
+export interface ExpenceDeleteRequestBody {
+    _id:mongoose.Types.ObjectId | string
+}
+
+export interface ExpenceDeleteResponse extends StandardApiResponse {}
