@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import SubExpense from "@/models/SubExpense";
 import { verifyToken } from "@/services/token/tokenSevices";
 import { badRequest, internalServerIssue, unAuthorized } from "@/utils/apiResponses";
+import { mongoconnect } from "@/lib/mongodb";
 
 export async function GET(req: NextRequest) {
   try {
@@ -11,7 +12,11 @@ export async function GET(req: NextRequest) {
     // if (!auth.isVerified || !auth.user) {
     //   return unAuthorized();
     // }
-
+     const isconnected = await mongoconnect()
+    
+        if(!isconnected){
+            return internalServerIssue(new Error("Faile to cnnect databse!"))
+        }
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id")
 

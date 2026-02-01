@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import SubExpense from "@/models/SubExpense";
 import { verifyToken } from "@/services/token/tokenSevices";
 import { internalServerIssue, unAuthorized } from "@/utils/apiResponses";
+import { mongoconnect } from "@/lib/mongodb";
 
 export async function GET(req: NextRequest) {
   try {
@@ -13,7 +14,11 @@ export async function GET(req: NextRequest) {
     }
 
     const authorId = new mongoose.Types.ObjectId(auth.user._id);
+    const isconnected = await mongoconnect()
 
+    if(!isconnected){
+        return internalServerIssue(new Error("Faile to cnnect databse!"))
+    }
     // Get params
     const { searchParams } = new URL(req.url);
     const now = new Date();
@@ -25,6 +30,7 @@ export async function GET(req: NextRequest) {
     const rangeEnd = new Date(year, month, 1);
     const yearStart = new Date(year, 0, 1);
     const yearEnd = new Date(year + 1, 0, 1);
+
 
     const pipeline: mongoose.PipelineStage[] = [
       // 1. Initial Join with Expense to filter by Author
