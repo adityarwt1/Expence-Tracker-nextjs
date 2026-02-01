@@ -13,3 +13,11 @@ export interface MemberObjectInterface {
 export interface MemberGetInterfaces extends StandardApiResponse {
     data?: MemberObjectInterface[]
 }
+
+/// add member
+export interface MemberAddInterfaceBody {
+    userId:mongoose.Types.ObjectId | string
+    expenceId:mongoose.Types.ObjectId | string
+}
+
+export interface MemberAddResponseInterface extends StandardApiResponse{}
