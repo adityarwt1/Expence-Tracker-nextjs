@@ -5,7 +5,7 @@ export const mongoconnect = async () : Promise<boolean>=>{
         if(mongoose.connection.readyState === 1)return true
 
         const isConnected = await mongoose.connect(process.env.MONGODB_URI as string,{
-            dbName:"ExpenceTrackerNextjs2026"
+            dbName:"expenseTrackerNextjs2026"
         })
 
         if(!isConnected){

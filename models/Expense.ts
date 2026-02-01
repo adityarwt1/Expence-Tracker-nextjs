@@ -1,11 +1,11 @@
 import mongoose , {Schema, Document} from "mongoose";
 
-interface ExpenceDocumentInterface  extends Document{
+interface expenseDocumentInterface  extends Document{
     title:string,
     authorId:mongoose.Schema.Types.ObjectId
 }
 
-const ExpenceSchema:Schema<ExpenceDocumentInterface> = new Schema({
+const expenseSchema:Schema<expenseDocumentInterface> = new Schema({
     title:{
         type:String,
         required:true,
@@ -18,6 +18,6 @@ const ExpenceSchema:Schema<ExpenceDocumentInterface> = new Schema({
 timestamps:true
 })
 
-const Expence = mongoose.models.Expence || mongoose.model<ExpenceDocumentInterface>("Expence", ExpenceSchema)
+const expense = mongoose.models.expense || mongoose.model<expenseDocumentInterface>("expense", expenseSchema)
 
-export default Expence;
+export default expense;

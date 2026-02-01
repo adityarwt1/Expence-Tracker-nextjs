@@ -1,20 +1,20 @@
 import { HttpStatusCode } from "@/enums/HttpStatusCodeAndStatus";
-import { ExpenceAddInterface, ExpenceResponseInterface, ExpenceGetInterfaces, ExpencePatchBodyInterface, ExpencePatchResonceBody, ExpenceDeleteResponse, ExpenceDeleteRequestBody } from "@/interfaces/ApiReponses/v1/expence/expencesInterfaces";
+import { expenseAddInterface, expenseResponseInterface, expenseGetInterfaces, expensePatchBodyInterface, expensePatchResonceBody, expenseDeleteResponse, expenseDeleteRequestBody } from "@/interfaces/ApiResponses/v1/expense/expenseInterfaces";
 import { mongoconnect } from "@/lib/mongodb";
-import Expence from "@/models/Expence";
+import Expense from "@/models/Expense";
 import { verifyToken } from "@/services/token/tokenSevices";
 import { badRequest, internalServerIssue, searchParams, unAuthorized } from "@/utils/apiResponses";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req:NextRequest):Promise<NextResponse<ExpenceResponseInterface>> {
+export async function POST(req:NextRequest):Promise<NextResponse<expenseResponseInterface>> {
     try {
         const authencticationInfo = await verifyToken(req)
 
         if(!authencticationInfo || !authencticationInfo.isVerified || !authencticationInfo.user?._id){
             return unAuthorized()
         }
-        const body :ExpenceAddInterface  = await req.json()
+        const body :expenseAddInterface  = await req.json()
 
         if(!body || !body.title){
             return badRequest("filed not provided properly!")
@@ -26,13 +26,13 @@ export async function POST(req:NextRequest):Promise<NextResponse<ExpenceResponse
             return internalServerIssue(new Error("Failed to connect Database!"))
         }
 
-        const expence = await Expence.create({
+        const expense = await Expense.create({
             title:body.title,
             authorId:authencticationInfo.user._id
         })
 
-        if(!expence){
-            return internalServerIssue(new Error("Failed to create expence!"))
+        if(!expense){
+            return internalServerIssue(new Error("Failed to create expense!"))
         }
 
         return NextResponse.json({
@@ -48,7 +48,7 @@ export async function POST(req:NextRequest):Promise<NextResponse<ExpenceResponse
     }
 }
 
-export async function GET(req:NextRequest) : Promise<NextResponse<ExpenceGetInterfaces>> {
+export async function GET(req:NextRequest) : Promise<NextResponse<expenseGetInterfaces>> {
     try {
         const authencticationInfo = await verifyToken(req)
 
@@ -67,22 +67,22 @@ export async function GET(req:NextRequest) : Promise<NextResponse<ExpenceGetInte
             return internalServerIssue(new Error("Failed to connect Database!"))
         }
 
-        const totalDocumentCount = await Expence.countDocuments({ userId: authencticationInfo.user._id })
+        const totalDocumentCount = await Expense.countDocuments({ userId: authencticationInfo.user._id })
 
-        const expences = await Expence.find({ authorId: authencticationInfo.user._id })
+        const expenses = await Expense.find({ authorId: authencticationInfo.user._id })
             .select("title _id")
             .skip(skip)
             .limit(limit)
             .lean()
 
-        if(!expences){
-            return internalServerIssue(new Error("Failed to fetch expences!"))
+        if(!expenses){
+            return internalServerIssue(new Error("Failed to fetch expenses!"))
         }
 
         return NextResponse.json({
             status: HttpStatusCode.OK,
             success: true,
-            data: expences,
+            data: expenses,
             pagination: {
                 limit,
                 page,
@@ -97,7 +97,7 @@ export async function GET(req:NextRequest) : Promise<NextResponse<ExpenceGetInte
     }
 }
 
-export async function PATCH(req:NextRequest) :Promise<NextResponse<ExpencePatchResonceBody>> {
+export async function PATCH(req:NextRequest) :Promise<NextResponse<expensePatchResonceBody>> {
 
     try {
         const authencticationInfo  = await verifyToken(req)
@@ -106,7 +106,7 @@ export async function PATCH(req:NextRequest) :Promise<NextResponse<ExpencePatchR
             return unAuthorized()
         }
 
-        const {_id, title} :ExpencePatchBodyInterface= await req.json() 
+        const {_id, title} :expensePatchBodyInterface= await req.json() 
 
         if(!_id || !title){
             return badRequest("id and title not provided properly!")
@@ -118,7 +118,7 @@ export async function PATCH(req:NextRequest) :Promise<NextResponse<ExpencePatchR
             return internalServerIssue()
         }
 
-        const updated = await Expence.findOneAndUpdate({
+        const updated = await Expense.findOneAndUpdate({
             _id:new mongoose.Types.ObjectId(_id)
         },{
             title
@@ -144,7 +144,7 @@ export async function PATCH(req:NextRequest) :Promise<NextResponse<ExpencePatchR
     
 }
 
-export async function DELETE(req:NextRequest) : Promise<NextResponse<ExpenceDeleteResponse>> {
+export async function DELETE(req:NextRequest) : Promise<NextResponse<expenseDeleteResponse>> {
 
     try {
         const authencticationInfo = await verifyToken(req)
@@ -153,10 +153,10 @@ export async function DELETE(req:NextRequest) : Promise<NextResponse<ExpenceDele
             return unAuthorized()
         }
 
-        const {_id}:ExpenceDeleteRequestBody  = await req.json()
+        const {_id}:expenseDeleteRequestBody  = await req.json()
 
         if(!_id){
-            return badRequest("_id must be required for deletion of expence!")
+            return badRequest("_id must be required for deletion of expense!")
         }
 
         const isconnected= await mongoconnect()
@@ -166,11 +166,11 @@ export async function DELETE(req:NextRequest) : Promise<NextResponse<ExpenceDele
         }
         
         try {
-            await Expence.findOneAndDelete({
+            await Expense.findOneAndDelete({
                 _id
             }).lean()
         } catch (error) {
-            return internalServerIssue(new Error("Failed to delete expence!"))
+            return internalServerIssue(new Error("Failed to delete expense!"))
         }
 
         return NextResponse.json({

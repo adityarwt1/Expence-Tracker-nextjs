@@ -15,10 +15,10 @@ export async function GET(req:NextRequest) :  Promise<NextResponse<MemberGetInte
             return unAuthorized()
         }
         const searchparam = await searchParams(req)
-        const expenceId  = searchparam.get("expenceId")
+        const expenseId  = searchparam.get("expenseId")
 
-        if(!expenceId){
-            return badRequest("expenceid is required to get the expence as the 'expenceId'")
+        if(!expenseId){
+            return badRequest("expenseid is required to get the expense as the 'expenseId'")
         }
 
         const isConnected = await mongoconnect()
@@ -30,7 +30,7 @@ export async function GET(req:NextRequest) :  Promise<NextResponse<MemberGetInte
         const data = await Member.aggregate([
             {
                 $match:{
-                    expenceId:new mongoose.Types.ObjectId(expenceId)
+                    expenseId:new mongoose.Types.ObjectId(expenseId)
                 }
             },
             {
@@ -73,10 +73,10 @@ export async function POST(req:NextRequest) :Promise<NextResponse<MemberAddRespo
             return unAuthorized()
         }
 
-        const {expenceId, userId}:MemberAddInterfaceBody = await req.json()
+        const {expenseId, userId}:MemberAddInterfaceBody = await req.json()
 
-        if(!expenceId || !userId){
-            return badRequest("expenceId and userId must be provide in the body!")
+        if(!expenseId || !userId){
+            return badRequest("expenseId and userId must be provide in the body!")
         }
 
         const isConnected = await mongoconnect()
@@ -86,16 +86,16 @@ export async function POST(req:NextRequest) :Promise<NextResponse<MemberAddRespo
         }
 
         const existingMember = await Member.findOne({
-            expenceId: new mongoose.Types.ObjectId(expenceId),
+            expenseId: new mongoose.Types.ObjectId(expenseId),
             userId: new mongoose.Types.ObjectId(userId)
         })
 
         if(existingMember){
-            return badRequest("User is already a member of this expence!")
+            return badRequest("User is already a member of this expense!")
         }
 
         const newMember = await Member.create({
-            expenceId: new mongoose.Types.ObjectId(expenceId),
+            expenseId: new mongoose.Types.ObjectId(expenseId),
             userId: new mongoose.Types.ObjectId(userId)
         })
 
@@ -105,7 +105,7 @@ export async function POST(req:NextRequest) :Promise<NextResponse<MemberAddRespo
             data: {
                 _id: newMember._id,
                 userId: newMember.userId,
-                expenceId: newMember.expenceId
+                expenseId: newMember.expenseId
             }
         })
     } catch (error) {

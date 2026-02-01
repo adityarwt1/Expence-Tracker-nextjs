@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { StandardApiResponse } from "../../StandardResponse";
 
 // get search params 
-// userId and expenceId
+// userId and expenseId
 // get response
 // userInterface 
 export interface MemberObjectInterface {
@@ -17,7 +17,7 @@ export interface MemberGetInterfaces extends StandardApiResponse {
 /// add member
 export interface MemberAddInterfaceBody {
     userId:mongoose.Types.ObjectId | string
-    expenceId:mongoose.Types.ObjectId | string
+    expenseId:mongoose.Types.ObjectId | string
 }
 
 export interface MemberAddResponseInterface extends StandardApiResponse{}
