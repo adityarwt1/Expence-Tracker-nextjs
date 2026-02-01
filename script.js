@@ -65,10 +65,10 @@ const transactionData = [
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdmNjBiYTNjNTZiMDA0MDAwNTM4NGIiLCJpYXQiOjE3Njk5NTcwNTd9.hzYoknHpXARvqqEIqQXhrvvhXNYOCUN5fih8DqT0nmE",
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdmOTYyOTVjNTliM2QxYzZhNGI3YTciLCJpYXQiOjE3Njk5NjkxOTR9.2s2AX79L1yzLDAF4skM2u9nQQOMaPUjRDohRT2-ownQ",
           },
           body: JSON.stringify({
-            expenseId: "697f91ccbfbf8d84f070fa50",
+            expenseId: "697f966b5c59b3d1c6a4b7b1",
             date: transactionData[i].timestamp,
             totalAmount: transactionData[i].amount,
             isActive: false,
