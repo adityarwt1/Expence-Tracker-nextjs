@@ -30,13 +30,14 @@ export async function GET(req:NextRequest) : Promise<NextResponse<SubExpenceGetR
             return internalServerIssue(new Error("Failed to connect databse!"))
         }
 
-        const data  = await Subexpense.find({
-            expenseId:new mongoose.Types.ObjectId(expenseId)
-        })
-        .limit(limit)
-        .skip(skip)
-        .lean()
-        .select("_id date isActive totalAmount")
+        const data = await Subexpense.find({
+    expenseId: new mongoose.Types.ObjectId(expenseId)
+})
+.sort({ date: -1 })   // 🔥 ADD THIS
+.limit(limit)
+.skip(skip)
+.lean()
+.select("_id date isActive totalAmount");
 
         const total = await Subexpense.countDocuments({
             expenseId:new mongoose.Types.ObjectId(expenseId)
